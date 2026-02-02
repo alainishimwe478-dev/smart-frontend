@@ -1,0 +1,2 @@
+- [ ] Replace Stats Cards section with mobile-responsive code
+- [ ] Replace Charts Section with mobile-responsive code
