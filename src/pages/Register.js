@@ -1,12 +1,14 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
-function Register(props) {
+function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -18,8 +20,10 @@ function Register(props) {
 
     setError("");
     console.log("Register with:", name, email, password);
-    // Simulate successful registration
-    props.onRegister(); // <-- Redirect to Dashboard
+    // Simulate successful registration: persist token & role and navigate
+    localStorage.setItem("token", "demo-token");
+    localStorage.setItem("role", "user");
+    navigate("/user");
   };
 
   return (

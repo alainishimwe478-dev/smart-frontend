@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import { FiActivity, FiClipboard } from "react-icons/fi";
 
-function DashboardHome({ notifications }) {
+function DashboardHome({ notifications = [] }) {
   const asthmaData = [
     { day: "Mon", attacks: 1, steps: 5000, meds: 2 },
     { day: "Tue", attacks: 0, steps: 6200, meds: 3 },
