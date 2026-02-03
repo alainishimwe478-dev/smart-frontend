@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { loginService } from "../services/loginService";
+import { useNavigate } from "react-router-dom";
 
-function Login(props) {
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     if (!email || !password) {
@@ -16,9 +19,14 @@ function Login(props) {
     }
 
     setError("");
-    console.log("Login with:", email, password);
-    // Simulate successful login
-    props.onLogin(); // <-- Redirect to Dashboard
+    try {
+      const role = await loginService(email, password);
+      if (role === "admin") navigate("/admin");
+      else if (role === "doctor") navigate("/doctor");
+      else navigate("/user");
+    } catch (err) {
+      setError("Login failed. Please check your credentials.");
+    }
   };
 
   return (

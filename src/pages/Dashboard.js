@@ -16,6 +16,8 @@ import DailyLog from "./DailyLog";
 import Medication from "./Medication";
 import DashboardHome from "./DashboardHome";
 import Reports from "./Reports";
+import Settings from "./Settings";
+import AdminDashboard from "./AdminDashboard";
 import ChatWidget from "../components/ChatWidget";
 
 function Dashboard({ onLogout }) {
@@ -120,9 +122,15 @@ function Dashboard({ onLogout }) {
           <Link to="reports" className="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-100 rounded-lg">
             <FiClipboard size={20} /> Reports
           </Link>
-          <a href="#" className="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-100 rounded-lg">
+          <Link to="admin" className="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-100 rounded-lg">
+            <FiSettings size={20} /> Admin Dashboard
+          </Link>
+          <Link
+            to="settings"
+            className="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-100 rounded-lg"
+          >
             <FiSettings size={20} /> Settings
-          </a>
+          </Link>
         </nav>
       </aside>
 
@@ -192,6 +200,8 @@ function Dashboard({ onLogout }) {
             <Route path="/daily-log" element={<DailyLog />} />
             <Route path="/medication" element={<Medication />} />
             <Route path="/reports" element={<Reports />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/settings" element={<Settings />} />
             <Route path="*" element={<Navigate to="/dashboard" />} />
           </Routes>
         </div>

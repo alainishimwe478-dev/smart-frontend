@@ -1,32 +1,50 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Dashboard from "./pages/Dashboard";
+import AdminDashboard from "./pages/AdminDashboard";
+import DoctorDashboard from "./pages/DoctorDashboard";
+import UserDashboard from "./pages/UserDashboard";
+
+const ProtectedRoute = ({ children, role }) => {
+  const token = localStorage.getItem("token");
+  const userRole = localStorage.getItem("role");
+
+  if (!token) return <Navigate to="/login" />;
+  if (role && userRole !== role) return <Navigate to="/login" />;
+  return children;
+};
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
-
-  const handleLogin = () => setIsAuthenticated(true);
-  const handleLogout = () => setIsAuthenticated(false);
-
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
+        <Route path="/login" element={<Login />} />
+
         <Route
-          path="/"
+          path="/admin"
           element={
-            isAuthenticated ? <Navigate to="/dashboard" /> : <Login onLogin={handleLogin} />
+            <ProtectedRoute role="admin">
+              <AdminDashboard />
+            </ProtectedRoute>
           }
         />
-        <Route path="/register" element={<Register />} />
         <Route
-          path="/dashboard/*"
-          element={isAuthenticated ? <Dashboard onLogout={handleLogout} /> : <Navigate to="/" />}
+          path="/doctor"
+          element={
+            <ProtectedRoute role="doctor">
+              <DoctorDashboard />
+            </ProtectedRoute>
+          }
         />
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route
+          path="/user"
+          element={
+            <ProtectedRoute role="user">
+              <UserDashboard />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 
