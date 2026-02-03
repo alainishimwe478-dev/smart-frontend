@@ -41,3 +41,17 @@ export const addDoctor = (doctorData) => {
 export const addPatient = (patientData) => {
   return apiRequest("/api/admin/create-patient", "POST", patientData);
 };
+
+/**
+ * Update user account
+ */
+export const updateUser = (userData) => {
+  return apiRequest("/api/admin/update-user", "PUT", userData);
+};
+
+/**
+ * Delete user account
+ */
+export const deleteUser = (email) => {
+  return apiRequest(`/api/admin/delete-user/${email}`, "DELETE");
+};

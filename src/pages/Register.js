@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { signup } from "../services/userService";
 
 function Register() {
   const [name, setName] = useState("");
@@ -10,7 +11,7 @@ function Register() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
     if (!name || !email || !password) {
@@ -19,11 +20,17 @@ function Register() {
     }
 
     setError("");
-    console.log("Register with:", name, email, password);
-    // Simulate successful registration: persist token & role and navigate
-    localStorage.setItem("token", "demo-token");
-    localStorage.setItem("role", "user");
-    navigate("/user");
+
+    try {
+      const response = await signup(name, email, password);
+
+      // Assuming response includes token and role
+      localStorage.setItem("token", response.token || "demo-token");
+      localStorage.setItem("role", response.role || "user");
+      navigate("/login");
+    } catch (err) {
+      setError(err.message || "Registration failed");
+    }
   };
 
   return (
