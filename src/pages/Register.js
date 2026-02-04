@@ -13,6 +13,7 @@ function Register() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    console.log("CLICKED REGISTER");
 
     if (!name || !email || !password) {
       setError("All fields are required");
@@ -23,13 +24,19 @@ function Register() {
 
     try {
       const response = await signup(name, email, password);
+      console.log("API RESPONSE:", response);
 
       // Assuming response includes token and role
       localStorage.setItem("token", response.token || "demo-token");
       localStorage.setItem("role", response.role || "user");
       navigate("/login");
     } catch (err) {
-      setError(err.message || "Registration failed");
+      console.error("API ERROR:", err.response?.data || err.message);
+      setError(
+        err.detail ||
+        err.message ||
+        "Signup failed. Please check your details."
+      );
     }
   };
 

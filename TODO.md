@@ -5,3 +5,9 @@
 - [x] Add search/filter for users list
 - [x] Update styling for modern look
 - [x] Test all functionalities
+
+# Signup Fix Tasks
+
+- [x] Update userService.js to use axios for signup
+- [ ] Add CORS middleware to FastAPI backend (main.py)
+- [ ] Test signup in browser DevTools Network tab

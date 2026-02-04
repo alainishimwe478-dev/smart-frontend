@@ -1,4 +1,5 @@
-.import axios from "axios";
+import axios from "axios";
+import { apiRequest } from "./api";
 
 const API_URL = import.meta.env.VITE_API_URL || "https://backend1-5xtu.onrender.com";
 
@@ -17,34 +18,19 @@ export const signup = async (full_name, email, password) => {
     throw new Error(error.response?.data?.message || "Signup failed");
   }
 };
-.import { apiRequest } from "./api";
 
 /**
- * User signup
+ * User login
  */
-export const signup = async (full_name, email, password) => {
-  const API_BASE_URL = import.meta.env.VITE_API_URL || "https://backend1-5xtu.onrender.com";
+export const login = async (email, password) => {
+  const response = await axios.post(`${API_URL}/users/login`, {
+    email,
+    password,
+  }, {
+    headers: { "Content-Type": "application/json" }
+  });
 
-  try {
-    const response = await fetch(`${API_BASE_URL}/users/signup`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({ full_name, email, password }),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Signup failed");
-    }
-
-    const data = await response.json();
-    return data; // Contains user info or token
-  } catch (error) {
-    throw error;
-  }
+  return response.data; // should return { token, role }
 };
 
 /**
@@ -59,4 +45,32 @@ export const getMyProfile = () => {
  */
 export const submitDailyLog = (logData) => {
   return apiRequest("/api/user/daily-log", "POST", logData);
+};
+
+/**
+ * Get user data
+ */
+export const getUserData = (email) => {
+  return apiRequest(`/api/user/profile/${email}`);
+};
+
+/**
+ * Get medications for user
+ */
+export const getMedications = (email) => {
+  return apiRequest(`/api/user/medications/${email}`);
+};
+
+/**
+ * Get daily logs for user
+ */
+export const getDailyLogs = (email) => {
+  return apiRequest(`/api/user/daily-logs/${email}`);
+};
+
+/**
+ * Add daily log for user
+ */
+export const addDailyLog = (email, logData) => {
+  return apiRequest(`/api/user/daily-log/${email}`, "POST", logData);
 };

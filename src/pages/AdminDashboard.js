@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { FaUsers, FaUserMd, FaUserInjured, FaSearch, FaEye, FaPlus, FaUserCheck, FaEdit, FaTrash, FaTimes } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { FaUsers, FaUserMd, FaUserInjured, FaPlus, FaUserCheck, FaEdit, FaTrash, FaTimes } from "react-icons/fa";
 import { getAllUsers, addUser, addDoctor, addPatient, assignPatient, updateUser, deleteUser } from "../services/adminService";
 
 const AdminDashboard = () => {
@@ -14,6 +15,16 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(false);
   const [modal, setModal] = useState({ isOpen: false, user: null });
   const [editForm, setEditForm] = useState({ email: "", role: "" });
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+
+    if (!token || role !== "admin") {
+      navigate("/login");
+    }
+  }, [navigate]);
 
   useEffect(() => {
     loadUsers();
