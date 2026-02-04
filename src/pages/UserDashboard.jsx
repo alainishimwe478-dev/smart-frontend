@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route, Link, Navigate } from "react-router-dom";
+import { Routes, Route, Link, Navigate, useLocation } from "react-router-dom";
 import {
   FiBell,
   FiUser,
@@ -21,6 +21,7 @@ import AdminDashboard from "./AdminDashboard";
 import ChatWidget from "../components/ChatWidget";
 
 function Dashboard({ onLogout }) {
+  const location = useLocation();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
@@ -115,37 +116,51 @@ function Dashboard({ onLogout }) {
         <nav className="0gar6rvs flex flex-col mt-6 space-y-2">
           <Link
             to="/"
-            className="056kuq9b flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-100 rounded-lg"
+            className={`056kuq9b flex items-center gap-3 p-3 rounded-lg ${
+              location.pathname === "/user"
+                ? "bg-blue-100 text-blue-700 font-semibold"
+                : "text-gray-700 hover:bg-blue-100"
+            }`}
           >
             <FiHome size={20} /> Dashboard
           </Link>
           <Link
             to="daily-log"
-            className="080sc50t flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-100 rounded-lg"
+            className={`080sc50t flex items-center gap-3 p-3 rounded-lg ${
+              location.pathname === "/user/daily-log"
+                ? "bg-blue-100 text-blue-700 font-semibold"
+                : "text-gray-700 hover:bg-blue-100"
+            }`}
           >
             <FiFileText size={20} /> Daily Log
           </Link>
           <Link
             to="medication"
-            className="0s1iyqxo flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-100 rounded-lg"
+            className={`0s1iyqxo flex items-center gap-3 p-3 rounded-lg ${
+              location.pathname === "/user/medication"
+                ? "bg-blue-100 text-blue-700 font-semibold"
+                : "text-gray-700 hover:bg-blue-100"
+            }`}
           >
             <FiHeart size={20} /> Medication
           </Link>
           <Link
             to="reports"
-            className="09ke643e flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-100 rounded-lg"
+            className={`09ke643e flex items-center gap-3 p-3 rounded-lg ${
+              location.pathname === "/user/reports"
+                ? "bg-blue-100 text-blue-700 font-semibold"
+                : "text-gray-700 hover:bg-blue-100"
+            }`}
           >
             <FiClipboard size={20} /> Reports
           </Link>
           <Link
-            to="admin"
-            className="0tj0osdp flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-100 rounded-lg"
-          >
-            <FiSettings size={20} /> Admin Dashboard
-          </Link>
-          <Link
             to="settings"
-            className="05krz6y3 flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-100 rounded-lg"
+            className={`05krz6y3 flex items-center gap-3 p-3 rounded-lg ${
+              location.pathname === "/user/settings"
+                ? "bg-blue-100 text-blue-700 font-semibold"
+                : "text-gray-700 hover:bg-blue-100"
+            }`}
           >
             <FiSettings size={20} /> Settings
           </Link>
