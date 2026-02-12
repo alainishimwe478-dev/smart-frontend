@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { BellIcon, UserCircleIcon } from "@heroicons/react/24/outline";
 import Chat from "../components/ChatWidget";
 import { useAlerts } from "../components/Alerts";
@@ -9,13 +9,21 @@ function DoctorDashboard() {
   const [dailyLogs, setDailyLogs] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [newNote, setNewNote] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortOrder, setSortOrder] = useState("desc");
 
   useAlerts();
 
   useEffect(() => {
     setPatients([
       { id: 1, name: "John Doe", risk: "High", heart_rate: 110, oxygen: 91 },
-      { id: 2, name: "Jane Smith", risk: "Moderate", heart_rate: 98, oxygen: 95 },
+      {
+        id: 2,
+        name: "Jane Smith",
+        risk: "Moderate",
+        heart_rate: 98,
+        oxygen: 95,
+      },
     ]);
   }, []);
 
@@ -24,11 +32,29 @@ function DoctorDashboard() {
 
     setDailyLogs([
       { id: 1, date: "2026-02-01", note: "Mild wheezing at night." },
-      { id: 2, date: "2026-02-03", note: "Prescribed inhaler dosage increased." },
+      {
+        id: 2,
+        date: "2026-02-03",
+        note: "Prescribed inhaler dosage increased.",
+      },
     ]);
 
     setShowForm(false);
   }, [selectedPatient]);
+
+  const filteredAndSortedLogs = useMemo(() => {
+    let filtered = dailyLogs.filter((log) =>
+      log.note.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    filtered.sort((a, b) => {
+      if (sortOrder === "asc") {
+        return new Date(a.date) - new Date(b.date);
+      } else {
+        return new Date(b.date) - new Date(a.date);
+      }
+    });
+    return filtered;
+  }, [dailyLogs, searchQuery, sortOrder]);
 
   const handleAddNote = () => {
     if (!newNote.trim()) return;
@@ -50,7 +76,9 @@ function DoctorDashboard() {
     <div className="0nouchee min-h-screen bg-gray-100">
       {/* Header */}
       <header className="0t7xv4g2 bg-white shadow px-6 py-4 flex justify-between items-center">
-        <h1 className="071frnzz text-2xl font-bold text-gray-800">Doctor Dashboard</h1>
+        <h1 className="071frnzz text-2xl font-bold text-gray-800">
+          Doctor Dashboard
+        </h1>
         <div className="0pf63pwx flex gap-4">
           <BellIcon className="0oosxcz6 w-6 h-6 text-gray-600" />
           <UserCircleIcon className="06hdy88e w-8 h-8 text-gray-600" />
@@ -60,7 +88,9 @@ function DoctorDashboard() {
       <main className="00frpnbb grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
         {/* Patients List */}
         <section className="0m1lryu1 bg-white rounded-xl shadow p-4">
-          <h2 className="0csf6cf3 font-semibold text-lg mb-4">Assigned Patients</h2>
+          <h2 className="0csf6cf3 font-semibold text-lg mb-4">
+            Assigned Patients
+          </h2>
 
           {patients.map((p) => (
             <div
@@ -78,8 +108,8 @@ function DoctorDashboard() {
                   p.risk === "High"
                     ? "text-red-600"
                     : p.risk === "Moderate"
-                    ? "text-yellow-600"
-                    : "text-green-600"
+                      ? "text-yellow-600"
+                      : "text-green-600"
                 }`}
               >
                 Risk: {p.risk}
@@ -100,18 +130,39 @@ function DoctorDashboard() {
               <div className="0ehy0v3e grid grid-cols-2 gap-4 mb-4 text-sm">
                 <div className="066sewyd bg-gray-50 p-3 rounded-lg">
                   ❤️ Heart Rate
-                  <p className="03j9ycfs font-bold">{selectedPatient.heart_rate} bpm</p>
+                  <p className="03j9ycfs font-bold">
+                    {selectedPatient.heart_rate} bpm
+                  </p>
                 </div>
                 <div className="0q3ehm51 bg-gray-50 p-3 rounded-lg">
                   🫁 Oxygen Level
-                  <p className="0sdmu3yk font-bold">{selectedPatient.oxygen}%</p>
+                  <p className="0sdmu3yk font-bold">
+                    {selectedPatient.oxygen}%
+                  </p>
                 </div>
               </div>
 
               {/* Daily Logs */}
               <h3 className="0781l11e font-semibold mb-2">Daily Logs</h3>
+              <div className="0ag9rqo7 flex gap-2 mb-4">
+                <input
+                  type="text"
+                  placeholder="Search logs..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="0awtevv8 flex-1 p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                />
+                <select
+                  value={sortOrder}
+                  onChange={(e) => setSortOrder(e.target.value)}
+                  className="0090r3l0 p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                >
+                  <option value="desc">Newest First</option>
+                  <option value="asc">Oldest First</option>
+                </select>
+              </div>
               <div className="02jg3z3t max-h-60 overflow-y-auto space-y-3 mb-4">
-                {dailyLogs.map((log) => (
+                {filteredAndSortedLogs.map((log) => (
                   <div
                     key={log.id}
                     className="0z36jl1m p-3 bg-gray-50 rounded-lg border"
@@ -121,8 +172,6 @@ function DoctorDashboard() {
                   </div>
                 ))}
               </div>
-
-              {/* Add Note */}
               {!showForm ? (
                 <button
                   onClick={() => setShowForm(true)}
@@ -156,8 +205,7 @@ function DoctorDashboard() {
               )}
             </>
           ) : (
-            <p className="0vwnlvzz text-gray-500 text-center mt-10">
-            </p>
+            <p className="0vwnlvzz text-gray-500 text-center mt-10"></p>
           )}
         </section>
 

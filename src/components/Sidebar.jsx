@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {
   FaHome,
   FaClipboardList,
@@ -8,13 +8,21 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 
-export default function Sidebar({ activeTab, setActiveTab, onLogout }) {
-  const navigate = useNavigate();
-
+export default function Sidebar({ onLogout }) {
   const menuItems = [
     { id: "dashboard", label: "Dashboard", icon: <FaHome />, path: "/user" },
-    { id: "dailyLogs", label: "Daily Logs", icon: <FaClipboardList />, path: "/daily-logs" },
-    { id: "medications", label: "Medications", icon: <FaPills />, path: "/medications" },
+    {
+      id: "dailyLogs",
+      label: "Daily Logs",
+      icon: <FaClipboardList />,
+      path: "/daily-logs",
+    },
+    {
+      id: "medications",
+      label: "Medications",
+      icon: <FaPills />,
+      path: "/medications",
+    },
     { id: "chat", label: "Doctor Chat", icon: <FaComments />, path: "/chat" },
     { id: "profile", label: "Profile", icon: <FaUser />, path: "/profile" },
   ];
@@ -27,19 +35,18 @@ export default function Sidebar({ activeTab, setActiveTab, onLogout }) {
 
       <nav className="0yfhefag flex-1 p-4 space-y-2">
         {menuItems.map((item) => (
-          <button
+          <NavLink
             key={item.id}
-            onClick={() => setActiveTab(item.id)}
-            className={`0ij134y8 w-full flex items-center gap-3 px-4 py-3 rounded transition
-              ${
-                activeTab === item.id
-                  ? "bg-blue-600 font-semibold"
-                  : "hover:bg-blue-600"
-              }`}
+            to={item.path}
+            className={({ isActive }) =>
+              `w-full flex items-center gap-3 px-4 py-3 rounded transition ${
+                isActive ? "bg-blue-600 font-semibold" : "hover:bg-blue-600"
+              }`
+            }
           >
             {item.icon}
             {item.label}
-          </button>
+          </NavLink>
         ))}
       </nav>
 

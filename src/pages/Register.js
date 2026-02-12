@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { signup } from "../services/userService";
+import { registerService } from "../services/registerService";
 import { useNavigate } from "react-router-dom";
 
 export default function Register() {
@@ -8,6 +8,7 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [role, setRole] = useState("user");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
@@ -32,7 +33,7 @@ export default function Register() {
     setLoading(true);
 
     try {
-      const response = await signup(name, email, password);
+      const response = await registerService(name, email, password, role);
       console.log("API RESPONSE:", response);
 
       // Assuming response includes token and role
@@ -131,6 +132,19 @@ export default function Register() {
           >
             {showConfirmPassword ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
           </div>
+        </div>
+
+        <div className="mb-6">
+          <label className="block mb-2 font-medium text-gray-700">Role</label>
+          <select
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition"
+          >
+            <option value="user">Patient</option>
+            <option value="doctor">Doctor</option>
+            <option value="admin">Admin</option>
+          </select>
         </div>
 
         <button

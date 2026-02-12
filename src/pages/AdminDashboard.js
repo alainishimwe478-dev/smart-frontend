@@ -1,11 +1,18 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUsers, FaUserMd, FaUserInjured, FaPlus, FaUserCheck, FaEdit, FaTrash, FaTimes } from "react-icons/fa";
-import { getAllUsers, addUser, addDoctor, addPatient, assignPatient, updateUser, deleteUser } from "../services/adminService";
 
 const AdminDashboard = () => {
-  const [users, setUsers] = useState([]);
-  const [filteredUsers, setFilteredUsers] = useState([]);
+  // Dummy data
+  const [users, setUsers] = useState([
+    { email: "admin@example.com", role: "admin" },
+    { email: "doctor1@example.com", role: "doctor" },
+    { email: "doctor2@example.com", role: "doctor" },
+    { email: "patient1@example.com", role: "user" },
+    { email: "patient2@example.com", role: "user" },
+    { email: "patient3@example.com", role: "user" },
+  ]);
+  const [filteredUsers, setFilteredUsers] = useState(users);
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("users");
   const [newUser, setNewUser] = useState({ email: "", password: "", role: "user" });
@@ -27,10 +34,6 @@ const AdminDashboard = () => {
   }, [navigate]);
 
   useEffect(() => {
-    loadUsers();
-  }, []);
-
-  useEffect(() => {
     setFilteredUsers(
       users.filter(user =>
         user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -41,23 +44,19 @@ const AdminDashboard = () => {
 
   const loadUsers = async () => {
     setLoading(true);
-    try {
-      const data = await getAllUsers();
-      setUsers(data);
-    } catch (err) {
-      alert("Failed to load users");
-    } finally {
+    // Simulate loading
+    setTimeout(() => {
       setLoading(false);
-    }
+    }, 500);
   };
 
   const handleAddUser = async (e) => {
     e.preventDefault();
     try {
-      await addUser(newUser);
+      // Simulate adding user
+      setUsers([...users, { email: newUser.email, role: newUser.role }]);
       alert("User added");
       setNewUser({ email: "", password: "", role: "user" });
-      loadUsers();
     } catch (err) {
       alert("Failed to add user");
     }
@@ -66,10 +65,10 @@ const AdminDashboard = () => {
   const handleAddDoctor = async (e) => {
     e.preventDefault();
     try {
-      await addDoctor(newDoctor);
+      // Simulate adding doctor
+      setUsers([...users, { email: newDoctor.email, role: "doctor" }]);
       alert("Doctor added");
       setNewDoctor({ email: "", password: "", name: "" });
-      loadUsers();
     } catch (err) {
       alert("Failed to add doctor");
     }
@@ -78,10 +77,10 @@ const AdminDashboard = () => {
   const handleAddPatient = async (e) => {
     e.preventDefault();
     try {
-      await addPatient(newPatient);
+      // Simulate adding patient
+      setUsers([...users, { email: newPatient.email, role: "user" }]);
       alert("Patient added");
       setNewPatient({ email: "", password: "", name: "" });
-      loadUsers();
     } catch (err) {
       alert("Failed to add patient");
     }
@@ -90,7 +89,7 @@ const AdminDashboard = () => {
   const handleAssignPatient = async (e) => {
     e.preventDefault();
     try {
-      await assignPatient(assignment);
+      // Simulate assignment
       alert("Patient assigned");
       setAssignment({ patient_email: "", doctor_email: "" });
     } catch (err) {
@@ -119,9 +118,9 @@ const AdminDashboard = () => {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
-      await updateUser({ oldEmail: modal.user.email, email: editForm.email, role: editForm.role });
+      // Simulate update
+      setUsers(users.map(u => u.email === modal.user.email ? { ...u, email: editForm.email, role: editForm.role } : u));
       alert("User updated");
-      loadUsers();
       closeModal();
     } catch (err) {
       alert("Failed to update user");
@@ -131,13 +130,9 @@ const AdminDashboard = () => {
   // Delete user
   const handleDeleteUser = (email) => {
     if (!window.confirm(`Are you sure you want to delete ${email}?`)) return;
-
-    deleteUser(email)
-      .then(() => {
-        alert("User deleted");
-        loadUsers();
-      })
-      .catch(() => alert("Failed to delete user"));
+    // Simulate delete
+    setUsers(users.filter(u => u.email !== email));
+    alert("User deleted");
   };
 
   const totalUsers = users.length;

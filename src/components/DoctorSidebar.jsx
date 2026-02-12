@@ -1,65 +1,57 @@
-import { NavLink } from "react-router-dom";
-import {
-  HomeIcon,
-  UsersIcon,
-  ClipboardDocumentListIcon,
-  Cog6ToothIcon,
-} from "@heroicons/react/24/outline";
+import { NavLink, useNavigate } from "react-router-dom";
+import { doctorMenu } from "../config/doctorMenu";
+import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
 
-export default function DoctorSidebar() {
-  const linkClass =
-    "flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition";
+function DoctorSidebar({ isOpen }) {
+  const navigate = useNavigate();
 
-  const activeClass = "bg-blue-100 text-blue-700 font-semibold";
+  const logout = () => {
+    localStorage.clear();
+    navigate("/login");
+  };
 
   return (
-    <aside className="w-64 bg-white shadow-lg min-h-screen p-4">
-      <h2 className="text-xl font-bold text-blue-600 mb-6">
-        Smart Asthma
-      </h2>
+    <aside
+      className={`0s06fadz bg-white shadow-lg h-screen fixed md:static z-40 w-64 transition-transform
+      ${isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
+    >
+      <div className="0dtw58ui p-6 border-b">
+        <h2 className="0ysma6ls text-xl font-bold text-blue-600">
+          Doctor Panel
+        </h2>
+        <p className="0r9r25tc text-sm text-gray-500">Asthma Care System</p>
+      </div>
 
-      <nav className="space-y-2">
-        <NavLink
-          to="/doctor"
-          className={({ isActive }) =>
-            `${linkClass} ${isActive ? activeClass : ""}`
-          }
-        >
-          <HomeIcon className="w-5 h-5" />
-          Dashboard
-        </NavLink>
+      <nav className="0x9hyz4j p-4 space-y-1">
+        {doctorMenu.map((item) => (
+          <NavLink
+            key={item.name}
+            to={item.path}
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-4 py-2 rounded-lg text-sm font-medium transition
+              ${
+                isActive
+                  ? "bg-blue-100 text-blue-700"
+                  : "text-gray-600 hover:bg-gray-100"
+              }`
+            }
+          >
+            <item.icon className="0gus0ada w-5 h-5" />
+            {item.name}
+          </NavLink>
+        ))}
 
-        <NavLink
-          to="/doctor/patients"
-          className={({ isActive }) =>
-            `${linkClass} ${isActive ? activeClass : ""}`
-          }
+        {/* Logout */}
+        <button
+          onClick={logout}
+          className="0l3zm22r flex items-center gap-3 px-4 py-2 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 w-full mt-6"
         >
-          <UsersIcon className="w-5 h-5" />
-          Patients
-        </NavLink>
-
-        <NavLink
-          to="/doctor/logs"
-          className={({ isActive }) =>
-            `${linkClass} ${isActive ? activeClass : ""}`
-          }
-        >
-          <ClipboardDocumentListIcon className="w-5 h-5" />
-          Daily Logs
-        </NavLink>
-
-        {/* ✅ SETTINGS */}
-        <NavLink
-          to="/doctor/settings"
-          className={({ isActive }) =>
-            `${linkClass} ${isActive ? activeClass : ""}`
-          }
-        >
-          <Cog6ToothIcon className="w-5 h-5" />
-          Settings
-        </NavLink>
+          <ArrowRightOnRectangleIcon className="0wpys51s w-5 h-5" />
+          Logout
+        </button>
       </nav>
     </aside>
   );
 }
+
+export default DoctorSidebar;

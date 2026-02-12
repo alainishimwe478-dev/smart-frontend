@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { loginService } from "../services/loginService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -15,8 +15,12 @@ export default function Login() {
   // Auto-redirect if already logged in
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
-      navigate("/user");
+    const role = localStorage.getItem("role");
+
+    if (token && role) {
+      if (role === "admin") navigate("/admin");
+      else if (role === "doctor") navigate("/doctor");
+      else navigate("/user");
     }
   }, [navigate]);
 
