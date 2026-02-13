@@ -1,49 +1,70 @@
 import React from 'react';
 import { AppSection } from '../types';
 
-const Sidebar = ({ activeSection, setActiveSection }) => {
-  const menuItems = [
-    { id: AppSection.Dashboard, icon: 'fa-chart-line', label: 'Dashboard' },
-    { id: AppSection.Forecast, icon: 'fa-cloud-sun', label: 'Risk Forecast' },
-    { id: AppSection.LiveAssistant, icon: 'fa-microphone', label: 'Voice Assistant' },
-    { id: AppSection.DoctorConnect, icon: 'fa-video', label: 'Doctor Connect' },
-    { id: AppSection.About, icon: 'fa-circle-info', label: 'Health Info' },
-  ];
+const NavItem = ({ section, active, icon, label, onClick }) => (
+  <button
+    onClick={onClick}
+    className={`w-full flex items-center gap-4 px-4 py-4 rounded-2xl transition-all group ${
+      active 
+        ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200' 
+        : 'text-slate-400 hover:bg-slate-100 hover:text-slate-900'
+    }`}
+  >
+    <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg transition-transform group-hover:scale-110 ${active ? 'bg-white/20' : 'bg-slate-50'}`}>
+      <i className={`fas ${icon}`}></i>
+    </div>
+    <span className="font-bold text-sm tracking-tight">{label}</span>
+    {active && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-white shadow-glow"></div>}
+  </button>
+);
 
+const Sidebar = ({ activeSection, setActiveSection, onLogout, isAuthenticated }) => {
   return (
-    <aside className="fixed left-0 top-0 h-full w-64 bg-white border-r border-slate-200 hidden md:flex flex-col z-20">
-      <div className="p-6 border-b border-slate-100 flex items-center gap-3">
-        <div className="bg-blue-600 p-2 rounded-lg">
-          <i className="fas fa-lungs text-white text-xl"></i>
+    <aside className="hidden lg:flex flex-col w-80 bg-white border-r border-slate-100 p-8">
+      <div className="flex items-center gap-3 mb-12 px-2">
+        <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white text-2xl shadow-xl shadow-indigo-100">
+          <i className="fas fa-shield-heart"></i>
         </div>
-        <h1 className="font-bold text-slate-800 leading-tight">Smart Asthma<br /><span className="text-blue-600 text-sm">Weather System</span></h1>
+        <div>
+          <h1 className="text-xl font-black text-slate-900 leading-none">Bio-Shield</h1>
+          <p className="text-[10px] font-black text-indigo-500 uppercase tracking-widest mt-1">Rwanda Network</p>
+        </div>
       </div>
-      
-      <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
-        {menuItems.map((item) => (
-          <button
-            key={item.id}
-            onClick={() => setActiveSection(item.id)}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
-              activeSection === item.id
-                ? 'bg-blue-50 text-blue-700 font-semibold'
-                : 'text-slate-600 hover:bg-slate-50'
-            }`}
-          >
-            <i className={`fas ${item.icon} w-5`}></i>
-            <span>{item.label}</span>
-          </button>
-        ))}
+
+      <nav className="flex-1 space-y-1">
+        <NavItem section={AppSection.Home} active={activeSection === AppSection.Home} icon="fa-house" label="Home" onClick={() => setActiveSection(AppSection.Home)} />
+        <NavItem section={AppSection.Dashboard} active={activeSection === AppSection.Dashboard} icon="fa-chart-pie" label="Analytics" onClick={() => setActiveSection(AppSection.Dashboard)} />
+        <NavItem section={AppSection.MapForecast} active={activeSection === AppSection.MapForecast} icon="fa-map-location-dot" label="Geo-Risk Map" onClick={() => setActiveSection(AppSection.MapForecast)} />
+        <NavItem section={AppSection.LiveAssistant} active={activeSection === AppSection.LiveAssistant} icon="fa-microphone-lines" label="AI Assistant" onClick={() => setActiveSection(AppSection.LiveAssistant)} />
+        <NavItem section={AppSection.DoctorConnect} active={activeSection === AppSection.DoctorConnect} icon="fa-user-doctor" label="Doctor Link" onClick={() => setActiveSection(AppSection.DoctorConnect)} />
+        <NavItem section={AppSection.Medication} active={activeSection === AppSection.Medication} icon="fa-pills" label="Medication" onClick={() => setActiveSection(AppSection.Medication)} />
+        
+        {isAuthenticated && (
+          <div className="pt-4 mt-4 border-t border-slate-50">
+            <button
+              onClick={onLogout}
+              className="w-full flex items-center gap-4 px-4 py-4 rounded-2xl transition-all text-slate-400 hover:bg-rose-50 hover:text-rose-500 group"
+            >
+              <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-lg transition-transform group-hover:scale-110 group-hover:bg-rose-100">
+                <i className="fas fa-right-from-bracket"></i>
+              </div>
+              <span className="font-bold text-sm tracking-tight">Logout</span>
+            </button>
+          </div>
+        )}
       </nav>
 
-      <div className="p-4 border-t border-slate-100">
-        <div className="bg-slate-50 rounded-xl p-4">
-          <p className="text-xs font-medium text-slate-500 mb-2 uppercase tracking-wider">Health Status</p>
-          <div className="flex items-center gap-2 text-green-600">
-            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-            <span className="text-sm font-semibold">Monitoring Active</span>
+      <div className="mt-auto bg-slate-50 rounded-3xl p-6 border border-slate-100">
+        <div className="flex items-center gap-4 mb-4">
+          <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
+            <i className="fas fa-leaf"></i>
           </div>
+          <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600">Air Quality: Good</span>
         </div>
+        <p className="text-xs text-slate-500 font-medium mb-4">Current AQI in Kigali is <strong className="text-slate-900">42</strong>. Stay outdoor safe.</p>
+        <button className="w-full py-3 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-100 transition-colors">
+          View Detailed Stats
+        </button>
       </div>
     </aside>
   );
