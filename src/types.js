@@ -5,6 +5,8 @@ const AppSection = {
   LiveAssistant: 'assistant',
   DoctorConnect: 'doctor',
   Medication: 'medication',
+  Notifications: 'notifications',
+  Profile: 'profile',
   Login: 'login'
 };
 

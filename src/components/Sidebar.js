@@ -38,20 +38,7 @@ const Sidebar = ({ activeSection, setActiveSection, onLogout, isAuthenticated })
         <NavItem section={AppSection.LiveAssistant} active={activeSection === AppSection.LiveAssistant} icon="fa-microphone-lines" label="AI Assistant" onClick={() => setActiveSection(AppSection.LiveAssistant)} />
         <NavItem section={AppSection.DoctorConnect} active={activeSection === AppSection.DoctorConnect} icon="fa-user-doctor" label="Doctor Link" onClick={() => setActiveSection(AppSection.DoctorConnect)} />
         <NavItem section={AppSection.Medication} active={activeSection === AppSection.Medication} icon="fa-pills" label="Medication" onClick={() => setActiveSection(AppSection.Medication)} />
-        
-        {isAuthenticated && (
-          <div className="pt-4 mt-4 border-t border-slate-50">
-            <button
-              onClick={onLogout}
-              className="w-full flex items-center gap-4 px-4 py-4 rounded-2xl transition-all text-slate-400 hover:bg-rose-50 hover:text-rose-500 group"
-            >
-              <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-lg transition-transform group-hover:scale-110 group-hover:bg-rose-100">
-                <i className="fas fa-right-from-bracket"></i>
-              </div>
-              <span className="font-bold text-sm tracking-tight">Logout</span>
-            </button>
-          </div>
-        )}
+        <NavItem section={AppSection.Notifications} active={activeSection === AppSection.Notifications} icon="fa-bell" label="Notifications" onClick={() => setActiveSection(AppSection.Notifications)} />
       </nav>
 
       <div className="mt-auto bg-slate-50 rounded-3xl p-6 border border-slate-100">
