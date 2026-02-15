@@ -43,6 +43,20 @@ const Dashboard = () => {
 
   return (
     <div className="animate-fadeIn space-y-10 pb-20">
+      {/* Welcome Header */}
+      <div className="bg-gradient-to-br from-indigo-600 to-indigo-800 p-10 rounded-[3rem] text-white shadow-xl">
+        <div className="flex items-center gap-4 mb-4">
+          <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center text-3xl">
+            <i className="fas fa-lungs"></i>
+          </div>
+          <div>
+            <h1 className="text-3xl font-black font-outfit tracking-tight">AsthmaShield</h1>
+            <p className="text-[10px] font-black text-indigo-200 uppercase tracking-widest">Rwanda National Network</p>
+          </div>
+        </div>
+        <p className="text-lg font-medium text-indigo-100">Welcome to your respiratory health dashboard</p>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         <StatCard title="Avg Humidity" value="68%" trend="-4%" color="blue" icon="fa-droplet" />
         <StatCard title="Pollen Count" value="High" trend="+12%" color="amber" icon="fa-wind" />
@@ -54,8 +68,8 @@ const Dashboard = () => {
         <div className="lg:col-span-2 bg-white p-10 rounded-[3rem] border border-slate-100 shadow-sm">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-10 gap-4">
             <div>
-              <h3 className="text-2xl font-black text-slate-900 font-outfit tracking-tight">Environmental Trends</h3>
-              <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">Kigali • Last 24 Hours</p>
+              <h3 className="text-2xl font-black text-slate-900 font-outfit tracking-tight">SmartSense Trends</h3>
+              <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">Kigali • Real-Time Monitoring</p>
             </div>
             <div className="flex gap-2 bg-slate-50 p-1.5 rounded-2xl border border-slate-100">
                <button 

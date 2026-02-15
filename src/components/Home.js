@@ -5,6 +5,7 @@ import Features from './Features';
 import SmartSensors from './SmartSensors';
 import AIDoctor from './AIDoctor';
 import About from './About';
+import Footer from './Footer';
 
 interface LandingProps {
   onStart: () => void;
@@ -27,7 +28,7 @@ const Landing: React.FC<LandingProps> = ({ onStart }) => {
           <span className="text-indigo-600">every single day.</span>
         </h2>
         <p className="text-lg md:text-xl text-slate-500 font-medium max-w-2xl mb-12 animate-fadeIn" style={{ animationDelay: '0.1s' }}>
-          AsthmaSense combines environmental monitoring with advanced AI to predict your triggers before they strike. 
+          AsthmaShield combines environmental monitoring with advanced AI to predict your triggers before they strike. 
           The smartest way to stay in control of your respiratory health.
         </p>
         
@@ -64,23 +65,7 @@ const Landing: React.FC<LandingProps> = ({ onStart }) => {
         <About onStart={onStart} />
       </section>
 
-      {/* Footer branding */}
-      <footer className="relative z-10 p-20 text-center border-t border-slate-100 bg-white">
-        <div className="flex items-center justify-center gap-4 mb-8">
-          <div className="w-10 h-10 bg-slate-900 rounded-2xl flex items-center justify-center text-white">
-            <i className="fas fa-lungs text-lg"></i>
-          </div>
-          <h1 className="text-xl font-black font-outfit tracking-tighter text-slate-900">AsthmaSense</h1>
-        </div>
-        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">
-          Kigali • San Francisco • London
-        </p>
-        <div className="mt-8 flex justify-center gap-8">
-          <a href="#" className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-indigo-600">Privacy Policy</a>
-          <a href="#" className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-indigo-600">Terms of Service</a>
-          <a href="#" className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-indigo-600">Contact Us</a>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

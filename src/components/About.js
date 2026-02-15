@@ -11,7 +11,7 @@ const About = ({ onStart }) => {
           Built for <span className="text-indigo-600">better breathing</span>
         </h3>
         <p className="text-lg text-slate-500 leading-relaxed mb-12 max-w-3xl mx-auto">
-          AsthmaSense was created by a team of healthcare professionals, data scientists, and engineers who understand the daily challenges of living with asthma. Our mission is to empower patients with technology that predicts and prevents asthma attacks before they happen.
+          AsthmaShield is Rwanda's national asthma management network, created by healthcare professionals, data scientists, and engineers. Our mission is to empower patients across Rwanda with technology that predicts and prevents asthma attacks before they happen.
         </p>
         <div className="grid md:grid-cols-3 gap-8 mb-16">
           <div>

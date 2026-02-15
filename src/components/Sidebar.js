@@ -23,10 +23,10 @@ const Sidebar = ({ activeSection, setActiveSection, onLogout, isAuthenticated })
     <aside className="hidden lg:flex flex-col w-80 bg-white border-r border-slate-100 p-8">
       <div className="flex items-center gap-3 mb-12 px-2">
         <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white text-2xl shadow-xl shadow-indigo-100">
-          <i className="fas fa-shield-heart"></i>
+          <i className="fas fa-lungs"></i>
         </div>
         <div>
-          <h1 className="text-xl font-black text-slate-900 leading-none">Bio-Shield</h1>
+          <h1 className="text-xl font-black text-slate-900 leading-none">AsthmaShield</h1>
           <p className="text-[10px] font-black text-indigo-500 uppercase tracking-widest mt-1">Rwanda Network</p>
         </div>
       </div>

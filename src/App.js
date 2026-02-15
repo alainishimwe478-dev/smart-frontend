@@ -26,7 +26,7 @@ const App = () => {
       if (Object.values(AppSection).includes(hash)) {
         setActiveSection(hash);
       } else if (!window.location.hash) {
-        window.location.hash = isAuthenticated ? AppSection.Dashboard : AppSection.Login;
+        window.location.hash = isAuthenticated ? AppSection.Dashboard : AppSection.Home;
       }
     };
     window.addEventListener('hashchange', handleHashChange);
@@ -57,7 +57,7 @@ const App = () => {
 
     switch (activeSection) {
       case AppSection.Home:
-        return <Home setActiveSection={navigate} userName={user.name} isAuthenticated={isAuthenticated} />;
+        return <Home onStart={() => navigate(AppSection.Login)} />;
       case AppSection.Dashboard:
         return <Dashboard />;
       case AppSection.MapForecast:
@@ -81,6 +81,10 @@ const App = () => {
 
   if (activeSection === AppSection.Login && !isAuthenticated) {
     return <Login onLogin={handleLogin} />;
+  }
+
+  if (activeSection === AppSection.Home) {
+    return <Home onStart={() => navigate(AppSection.Login)} />;
   }
 
   return (
